@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-rubik: "Rubik", sans-serif;
+  --color-primary: hsl(0, 0%, 17%);
+  --color-secondary: hsl(0, 0%, 58%);
+  --mobile-pattern: url(./assets/pattern-bg-mobile.png);
+  --desktop-pattern: url(./assets/pattern-bg-desktop.png);
+}
+
+@layer components {
+  .card {
+    @apply px-7 lg:pl-8 lg:pr-13 flex-1 relative;
+  }
+  .card-border {
+    @apply sm:after:content-[''] sm:after:absolute sm:after:w-px sm:after:h-[80%] sm:after:bg-secondary/50 sm:after:right-0 sm:after:top-1/2 sm:after:-translate-y-1/2;
+  }
+  .card-title {
+    @apply text-secondary font-bold uppercase text-[0.625rem] lg:text-[0.8125rem] tracking-[0.125rem];
+  }
+  .card-info {
+    @apply text-primary font-medium text-xl lg:text-[1.625rem] leading-[1.2] mt-1.5 md:mt-2.5;
+  }
+}
