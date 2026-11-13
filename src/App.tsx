@@ -131,7 +131,7 @@ function App(): JSX.Element {
           </button>
         </form>
       </header>
-      <section className="relative flex-1 flex flex-col bg-secondary">
+      <section className="relative flex-1 flex flex-col">
         <div className="absolute flex items-center sm:items-start justify-center sm:justify-start w-[calc(100%-3rem)] xl:w-277.5 min-h-40 py-6 md:pt-9 md:pb-8 bg-white rounded-2xl shadow-lg left-1/2 -top-31 md:-top-20 -translate-x-1/2 z-1000">
           {!error && (
             <div className="w-full flex gap-6 sm:gap-0 flex-col sm:flex-row text-center sm:text-start relative">
