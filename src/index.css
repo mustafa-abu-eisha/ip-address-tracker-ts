@@ -1,8 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-rubik: "Rubik", sans-serif;
+  --font-sans: "Rubik", sans-serif;
   --color-primary: hsl(0, 0%, 17%);
   --color-secondary: hsl(0, 0%, 58%);
   --mobile-pattern: url(./assets/pattern-bg-mobile.png);
