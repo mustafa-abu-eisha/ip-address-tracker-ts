@@ -8,7 +8,6 @@ import {
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L, { type LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "./App.css";
 
 import arrowIcon from "./assets/icon-arrow.svg";
 import locationIcon from "./assets/icon-location.svg";
@@ -35,8 +34,6 @@ interface LocationTypes {
   };
   isp: string;
 }
-
-const apiKey = import.meta.env.VITE_IPIFY_API_KEY;
 
 function ChangeView({ center }: { center: LatLngExpression }) {
   const map = useMap();
@@ -69,16 +66,19 @@ function App(): JSX.Element {
       const isIpv4 = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(cleanedQuery);
       const isIpv6 = cleanedQuery.includes(":");
 
-      const paramName =
-        cleanedQuery === ""
-          ? ""
-          : isIpv4 || isIpv6
-            ? `&ipAddress=${cleanedQuery}`
-            : `&domain=${cleanedQuery}`;
+      const params = new URLSearchParams();
+      if (cleanedQuery !== "") {
+        if (isIpv4 || isIpv6) {
+          params.set("ipAddress", cleanedQuery);
+        } else {
+          params.set("domain", cleanedQuery);
+        }
+      }
 
-      const response = await fetch(
-        `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}${paramName}`,
-      );
+      const queryString = params.toString();
+      const url = queryString ? `/api/ip?${queryString}` : "/api/ip";
+
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error("Failed to fetch location data");
@@ -109,10 +109,13 @@ function App(): JSX.Element {
     : undefined;
 
   return (
-    <main className="min-h-screen flex flex-col font-rubik">
+    <main className="min-h-screen flex flex-col">
       <header className="text-center w-full h-75 lg:h-70 bg-(image:--mobile-pattern) lg:bg-(image:--desktop-pattern) bg-center bg-cover bg-no-repeat pt-7 md:pt-8 px-6">
         <h1 className="text-3xl font-medium text-white">IP Address Tracker</h1>
-        <form className="max-w-139 mx-auto mt-7 flex" onSubmit={handleSubmit}>
+        <form
+          className="max-w-139 mx-auto mt-7 flex focus-visible:ring-4 focus-within:ring-white/60"
+          onSubmit={handleSubmit}
+        >
           <input
             type="text"
             name="ip-address"
@@ -123,7 +126,7 @@ function App(): JSX.Element {
           />
           <button
             type="submit"
-            aria-label="Search Button"
+            aria-label="Search"
             className="flex w-14.5 h-14.5 items-center justify-center bg-black rounded-r-2xl transition-colors duration-200 hover:cursor-pointer hover:bg-primary focus-visible:bg-primary focus-visible:outline-none"
             disabled={loading}
           >
